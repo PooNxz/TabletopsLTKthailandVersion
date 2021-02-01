@@ -1,0 +1,9 @@
+function onload()
+    print('Onload!123')
+end
+DECK_GUID = "d2448c"
+ROLE1_GUID = "63d1f8"
+ROLE2_GUID = "b4efdd"
+ROLE3_GUID = "b8e147"
+ROLE4_GUID = "dc3a69"
+CARD_ZONE_GUID = "7261e6"

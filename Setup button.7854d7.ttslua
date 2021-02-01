@@ -1,0 +1,84 @@
+DECK_GUID = Global.getVar('DECK_GUID')
+ROLE1_GUID = Global.getVar('ROLE1_GUID')
+ROLE2_GUID = Global.getVar('ROLE2_GUID')
+ROLE3_GUID = Global.getVar('ROLE3_GUID')
+ROLE4_GUID = Global.getVar('ROLE4_GUID')
+CARD_ZONE_GUID = Global.getVar('CARD_ZONE_GUID')
+count = 0
+NEW_DECK_GUID = 0
+function setUpCards()
+    local deck = getObjectFromGUID(DECK_GUID)
+    local role1 = getObjectFromGUID(ROLE1_GUID)
+    local role2 = getObjectFromGUID(ROLE2_GUID)
+    local role3 = getObjectFromGUID(ROLE3_GUID)
+    local role4 = getObjectFromGUID(ROLE4_GUID)
+    local zone = getObjectFromGUID(CARD_ZONE_GUID)
+    local role2Num = 0
+    local role3Num = 0
+    local role4Num = 0
+    local playerSeat = #getSeatedPlayers()
+    local rolePos = role1.getPosition()
+    local yPos = rolePos[3] - 3.5
+    role1.takeObject({flip=true, position={rolePos[1], rolePos[2], yPos}})
+    if playerSeat >= 2 then
+      role3Num = role3Num + 1
+    end
+    if playerSeat >= 3 then
+      role4Num = role4Num + 1
+    end
+    if playerSeat >= 4 then
+      role3Num = role3Num + 1
+    end
+    if playerSeat >= 5 then
+      role2Num = role2Num + 1
+    end
+    if playerSeat >= 6 then
+      role4Num = role4Num + 1
+    end
+    if playerSeat >= 7 then
+      role3Num = role3Num + 1
+    end
+    if playerSeat >= 8 then
+      role2Num = role2Num + 1
+    end
+    if playerSeat >= 9 then
+      role3Num = role3Num + 1
+    end
+    if playerSeat >= 10 then
+      role4Num = role4Num + 1
+    end
+    for i=1,role2Num,1 do
+      role2.takeObject({flip=true, position={rolePos[1], rolePos[2], yPos}})
+    end
+    for i=1,role3Num,1 do
+      role3.takeObject({flip=true, position={rolePos[1], rolePos[2], yPos}})
+    end
+    for i=1,role4Num,1 do
+      role4.takeObject({flip=true, position={rolePos[1], rolePos[2], yPos}})
+    end
+    function onObjectEnterScriptingZone(zone, obj)
+        --print(obj.getGUID(),"--->",count)
+          NEW_DECK_GUID = obj.getGUID()
+    end
+    Wait.time(|| print("-----",NEW_DECK_GUID,"-----"),0.5)
+    Wait.time(spread,1)
+    --Wait.time(|| ,5)
+end
+
+function spread()
+
+  local deck1 = getObjectFromGUID(NEW_DECK_GUID)
+  deck1.shuffle()
+
+  local playerSeat1 = #getSeatedPlayers()
+  local deckPos = deck1.getPosition()
+  local xPos = deckPos[1]+12
+  local gap = 15/playerSeat1
+  print("----------------------")
+  print(NEW_DECK_GUID,"----",gap)
+  print("----------------------")
+  for i = 1,playerSeat1,1 do
+      deck1.takeObject({position={xPos, deckPos[2], deckPos[3]-3.5}})
+      xPos = xPos - gap
+  end
+end
